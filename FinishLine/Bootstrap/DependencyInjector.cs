@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using FinishLine.Models;
+using FinishLine.Services.Generics;
+using Newtonsoft.Json.Linq;
 
 namespace FinishLine.Api.Bootstrap
 {
@@ -11,7 +13,7 @@ namespace FinishLine.Api.Bootstrap
 
         public static void InjectServices(IServiceCollection services)
         {
-           
+            services.AddScoped<IServiceGeneric<User>, ServiceGeneric<User>>();
         }
     }
 }
