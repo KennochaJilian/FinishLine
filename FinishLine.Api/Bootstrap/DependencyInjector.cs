@@ -13,7 +13,7 @@ namespace FinishLine.Api.Bootstrap
 
         public static void InjectServices(IServiceCollection services)
         {
-            services.AddScoped<IServiceGeneric<User>, ServiceGeneric<User>>();
+            services.AddScoped<IServiceGeneric<AppUser>, ServiceGeneric<AppUser>>();
         }
     }
 }

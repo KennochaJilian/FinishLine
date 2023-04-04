@@ -1,7 +1,6 @@
 ﻿using FinishLine.Api.Bootstrap;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
-
+using FinishLine.Models;
+using Microsoft.EntityFrameworkCore;
 namespace FinishLine.Api;
     public class Startup
     {
@@ -18,6 +17,12 @@ namespace FinishLine.Api;
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
+
+
+        var connectionString = Configuration.GetConnectionString("FinishLine");
+        services.AddDbContext<FinishLineDbContext>(options => options.UseMySql(
+            connectionString, 
+            ServerVersion.AutoDetect(connectionString)));
 
     }
     public void Configure(IApplicationBuilder app)
