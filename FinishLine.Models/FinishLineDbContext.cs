@@ -12,6 +12,7 @@ public class FinishLineDbContext: DbContext
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+        builder.Entity<AppUser>().HasKey(x => x.Id);
     }
 
 }

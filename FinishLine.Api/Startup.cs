@@ -19,10 +19,12 @@ namespace FinishLine.Api;
         services.AddSwaggerGen();
 
 
-        var connectionString = Configuration.GetConnectionString("FinishLine");
-        services.AddDbContext<FinishLineDbContext>(options => options.UseMySql(
-            connectionString, 
-            ServerVersion.AutoDetect(connectionString)));
+        var connectionString = Configuration.GetConnectionString("Local");
+        if (connectionString != null)
+        {
+            services.AddDbContext<FinishLineDbContext>(options => options.UseMySQL(
+                connectionString, x => x.MigrationsAssembly("FinishLine.Models")));
+        }
 
     }
     public void Configure(IApplicationBuilder app)

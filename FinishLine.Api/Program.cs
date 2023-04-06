@@ -1,8 +1,14 @@
 using FinishLine.Api;
 using Microsoft.AspNetCore;
 
-var builder = WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+tryMain(args);
+static void tryMain(string[] args) {
+    CreateHostBuilder(args).Build().Run();
+}
 
-var app = builder.Build();
-app.Run();
+static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });

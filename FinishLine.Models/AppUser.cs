@@ -1,12 +1,14 @@
 ﻿using FinishLine.Models.Interfaces;
-using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace FinishLine.Models;
 
-    public class AppUser : IIncludeObject
+public class AppUser : IIncludeObject
 {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+    [Key]
+    public int Id { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
 
     public List<string> IncludesNeeded()
     {
