@@ -1,5 +1,8 @@
-﻿using FinishLine.Api.Models.Auth;
-using FinishLine.Models;
+﻿using FinishLine.Models;
+using FinishLine.Services;
+using FinishLine.Services.Interfaces;
+using FinishLine.Services.Models;
+using FinishLine.Services.Models.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,30 +12,29 @@ namespace FinishLine.Api.Controllers
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly UserManager<AppUser> _userManager;
-        public AuthController(UserManager<AppUser> userManager) 
+        private readonly IAuthService _authService;
+        public AuthController(IAuthService authService)
         {
-            _userManager = userManager;
+            _authService = authService;
         }
         [HttpPost("register")]
         public async Task<IActionResult> Register ([FromBody] RegisterModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var user = new AppUser { UserName = model.Email, FirstName = model.FirstName, LastName = model.LastName, Email = model.Email };
-                var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                var vm = new ValidationModel<AppUser>
                 {
-                    return Ok("Registration successful.");
-                }
-                else
-                {
-                    var errors = result.Errors.Select(e => e.Description);
-                    return BadRequest(errors);
-                }
+                    Errors = new List<string>() { "Invalid registration data" }
+                };
+                return BadRequest(vm);
+            }
+            var res = await _authService.Register(model);
+            if (!res.Success)
+            {
+                return BadRequest(res);
             }
 
-            return BadRequest("Invalid registration data.");
+            return Ok(res);
         }
     }
 }

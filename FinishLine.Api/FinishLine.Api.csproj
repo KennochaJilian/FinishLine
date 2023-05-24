@@ -28,8 +28,4 @@
     <ProjectReference Include="..\FinishLine.Services\FinishLine.Services.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\Auth\" />
-  </ItemGroup>
-
 </Project>

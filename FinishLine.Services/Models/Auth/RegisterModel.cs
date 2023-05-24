@@ -1,4 +1,4 @@
-﻿namespace FinishLine.Api.Models.Auth;
+﻿namespace FinishLine.Services.Models.Auth;
 
 public class RegisterModel
 {
