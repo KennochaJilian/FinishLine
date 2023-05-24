@@ -1,12 +1,11 @@
 ﻿using FinishLine.Models.Interfaces;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace FinishLine.Models;
 
-public class AppUser : IIncludeObject
+public class AppUser : IdentityUser<Guid>, IIncludeObject
 {
-    [Key]
-    public int Id { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
 
