@@ -1,8 +1,9 @@
 ﻿using FinishLine.Models;
 using FinishLine.Services;
-using FinishLine.Services.Interfaces;
+using FinishLine.Services.Auth;
 using FinishLine.Services.Models;
 using FinishLine.Services.Models.Auth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +18,7 @@ namespace FinishLine.Api.Controllers
         {
             _authService = authService;
         }
+
         [HttpPost("register")]
         public async Task<IActionResult> Register ([FromBody] RegisterModel model)
         {
@@ -29,6 +31,26 @@ namespace FinishLine.Api.Controllers
                 return BadRequest(vm);
             }
             var res = await _authService.Register(model);
+            if (!res.Success)
+            {
+                return BadRequest(res);
+            }
+
+            return Ok(res);
+        }
+        
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var vm = new ValidationModel<AppUser>
+                {
+                    Errors = new List<string>() { "Invalid registration data" }
+                };
+                return BadRequest(vm);
+            }
+            var res = await _authService.Login(model);
             if (!res.Success)
             {
                 return BadRequest(res);

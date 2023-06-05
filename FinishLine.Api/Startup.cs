@@ -35,6 +35,11 @@ namespace FinishLine.Api;
                 connectionString, x => x.MigrationsAssembly("FinishLine.Models")));
         }
 
+        var jwtSettings = Configuration.GetSection("JwtSettings");
+        var issuer = jwtSettings.GetValue<string>("Issuer");
+        var audience = jwtSettings.GetValue<string>("Audience");
+        var secretKey = Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]);
+
         services.AddAuthentication(options =>
         {
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -47,9 +52,9 @@ namespace FinishLine.Api;
                 ValidateAudience = true,
                 ValidateLifetime = true,
                 ValidateIssuerSigningKey = true,
-                ValidIssuer = "your-issuer",
-                ValidAudience = "your-audience",
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your-signing-key"))
+                ValidIssuer = issuer,
+                ValidAudience = audience,
+                IssuerSigningKey = new SymmetricSecurityKey(secretKey)
             };
         });
 
@@ -57,15 +62,11 @@ namespace FinishLine.Api;
     }
     public void Configure(IApplicationBuilder app)
     {
-
+        app.UseAuthentication();
         app.UseStaticFiles();
-
-        app.UseAuthentication();      
-
         app.UseHttpsRedirection();
         app.UseRouting();
         app.UseCors("CorsPolicy");
-        app.UseAuthentication();
         app.UseAuthorization();
         app.UseSwagger();
         app.UseSwaggerUI();
