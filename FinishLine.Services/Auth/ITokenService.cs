@@ -1,8 +1,9 @@
 ﻿using FinishLine.Models;
+using FinishLine.Services.Models.Auth;
 
 namespace FinishLine.Services.Auth;
 
 public interface ITokenService
 {
-    string GenerateJwtTokenFromUser(AppUser user);
+    TokenModel GenerateJwtTokenFromUser(AppUser user);
 }

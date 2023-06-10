@@ -2,6 +2,7 @@
 using FinishLine.Services.Models;
 using FinishLine.Services.Models.Auth;
 using Microsoft.AspNetCore.Identity;
+using System.Text;
 
 namespace FinishLine.Services.Auth;
 
@@ -56,15 +57,10 @@ public class AuthService : IAuthService
     }
     private ValidationModel<TokenModel> GetToken(AppUser user)
     {
-        var token = _tokenService.GenerateJwtTokenFromUser(user);
         return new ValidationModel<TokenModel>
         {
-            Object = new TokenModel()
-            {
-                User = user,
-                Token = token,
-            },
+            Object = _tokenService.GenerateJwtTokenFromUser(user)
 
-        };
+    };
     }
 }

@@ -5,6 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using FinishLine.Models;
+using FinishLine.Services.Models.Auth;
 using Microsoft.Extensions.Configuration;
 
 namespace FinishLine.Services.Auth;
@@ -17,7 +18,7 @@ public class TokenService : ITokenService
     {
         _configuration = configuration;
     }
-    public string GenerateJwtTokenFromUser(AppUser user)
+    public TokenModel GenerateJwtTokenFromUser(AppUser user)
     {
         var jwtSettings = _configuration.GetSection("JwtSettings");
         var secretKey = Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]);
@@ -38,8 +39,14 @@ public class TokenService : ITokenService
             expires: DateTime.Now.AddHours(expirationHours),
             signingCredentials: credentials);
 
-        return new JwtSecurityTokenHandler().WriteToken(token);
+        var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+        return new TokenModel()
+        {
+            User = user,
+            Token = tokenString,
+            ExpiredAt = DateTime.UtcNow.AddHours(expirationHours)
+        };
 
-        
+
     }
 }

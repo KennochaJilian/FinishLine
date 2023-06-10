@@ -22,30 +22,24 @@ namespace FinishLine.Api.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register ([FromBody] RegisterModel model)
         {
+            var vm = new ValidationModel<AppUser>();
             if (!ModelState.IsValid)
             {
-                var vm = new ValidationModel<AppUser>
-                {
-                    Errors = new List<string>() { "Invalid registration data" }
-                };
+                vm.Errors.AddRange(new List<string>(){"Invalid registration data"});
                 return BadRequest(vm);
             }
 
             try
             {
                 var res = await _authService.Register(model);
+                return Ok(res);
             }
             catch (Exception ex)
             {
-                var test = "";
+                vm.Errors.Add(ex.Message);
+                return BadRequest(vm);
             }
             
-            //if (!res.Success)
-            //{
-            //    return BadRequest(res);
-            //}
-
-            return Ok();
         }
         
         [HttpPost("login")]
@@ -64,7 +58,6 @@ namespace FinishLine.Api.Controllers
             {
                 return BadRequest(res);
             }
-
             return Ok(res);
         }
     }

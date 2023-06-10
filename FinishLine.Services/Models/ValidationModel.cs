@@ -3,6 +3,6 @@
 public class ValidationModel<T> where T : class
 {
     public T Object { get; set; }
-    public List<String> Errors { get; set; }
-    public bool Success => Errors?.Count == 0;
+    public List<string>? Errors { get; set; }
+    public bool Success => Errors == null || Errors.Count == 0 ;
 }

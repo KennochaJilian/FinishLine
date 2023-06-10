@@ -6,4 +6,5 @@ public class TokenModel
 {
     public AppUser User { get; set; }
     public string Token { get; set; }
+    public DateTime ExpiredAt { get; set; }
 }
