@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FinishLine.Models\FinishLine.Models.csproj" />
+    <ProjectReference Include="..\FinishLine.Repositories\FinishLine.Repositories.csproj" />
   </ItemGroup>
 
 </Project>

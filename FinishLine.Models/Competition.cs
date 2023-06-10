@@ -14,6 +14,9 @@ public class Competition : Entity, IIncludeObject
 
     public List<string> IncludesNeeded()
     {
-       return new List<string>();
+        return new List<string>()
+        {
+            $"{nameof(Sport)}"
+        };
     }
 }

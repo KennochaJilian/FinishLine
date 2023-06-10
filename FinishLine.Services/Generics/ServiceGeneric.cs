@@ -1,10 +1,16 @@
 ﻿using Microsoft.AspNetCore.JsonPatch;
 using System.Linq.Expressions;
+using FinishLine.Repositories.Generics;
 
 namespace FinishLine.Services.Generics;
 
 public class ServiceGeneric<T> : IServiceGeneric<T> where T : class
 {
+    protected IRepositoryGeneric<T> _repo;
+    public ServiceGeneric(IRepositoryGeneric<T> repo)
+    { 
+        _repo = repo;
+    }
     public T Add(T obj)
     {
         throw new NotImplementedException();
@@ -22,7 +28,7 @@ public class ServiceGeneric<T> : IServiceGeneric<T> where T : class
 
     public List<T> GetAll(Expression<Func<T, bool>>? predicate = null)
     {
-        return new List<T> { };
+        return _repo.GetAll(predicate);
     }
 
     public T Patch(JsonPatchDocument<T> tPatch, Guid id)
