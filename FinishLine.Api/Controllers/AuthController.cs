@@ -30,13 +30,22 @@ namespace FinishLine.Api.Controllers
                 };
                 return BadRequest(vm);
             }
-            var res = await _authService.Register(model);
-            if (!res.Success)
-            {
-                return BadRequest(res);
-            }
 
-            return Ok(res);
+            try
+            {
+                var res = await _authService.Register(model);
+            }
+            catch (Exception ex)
+            {
+                var test = "";
+            }
+            
+            //if (!res.Success)
+            //{
+            //    return BadRequest(res);
+            //}
+
+            return Ok();
         }
         
         [HttpPost("login")]

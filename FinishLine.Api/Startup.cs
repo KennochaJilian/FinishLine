@@ -28,7 +28,7 @@ namespace FinishLine.Api;
         services.AddSwaggerGen();
 
 
-        var connectionString = Configuration.GetConnectionString("Local");
+        var connectionString = Configuration.GetConnectionString("FinishLine");
         if (connectionString != null)
         {
             services.AddDbContext<FinishLineDbContext>(options => options.UseMySQL(
@@ -66,7 +66,12 @@ namespace FinishLine.Api;
         app.UseStaticFiles();
         app.UseHttpsRedirection();
         app.UseRouting();
-        app.UseCors("CorsPolicy");
+        app.UseCors(builder =>
+            builder
+                .AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+        );
         app.UseAuthorization();
         app.UseSwagger();
         app.UseSwaggerUI();
